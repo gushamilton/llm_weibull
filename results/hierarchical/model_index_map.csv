@@ -1,0 +1,8 @@
+model_idx,alias
+0,Claude 3 Opus
+1,Claude 3.5 Sonnet (New)
+2,Claude 3.5 Sonnet (Old)
+3,Claude 3.7 Sonnet
+4,GPT-4 Turbo
+5,GPT-4o
+6,o1
