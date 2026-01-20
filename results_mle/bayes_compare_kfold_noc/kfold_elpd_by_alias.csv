@@ -1,0 +1,211 @@
+fold,alias,model,elpd
+1,Claude 3 Opus,weibull,-86.41530882284972
+1,Claude 3 Opus,exponential,-93.37613245944318
+1,Claude 3 Opus,logistic,-86.58399060032698
+1,Claude 3.5 Sonnet (New),weibull,-108.3487980809173
+1,Claude 3.5 Sonnet (New),exponential,-123.29109361653957
+1,Claude 3.5 Sonnet (New),logistic,-108.99863762562053
+1,Claude 3.5 Sonnet (Old),weibull,-82.1983818080404
+1,Claude 3.5 Sonnet (Old),exponential,-97.00455155812351
+1,Claude 3.5 Sonnet (Old),logistic,-79.59464962444288
+1,Claude 3.7 Sonnet,weibull,-65.4526927314062
+1,Claude 3.7 Sonnet,exponential,-66.00476839397471
+1,Claude 3.7 Sonnet,logistic,-65.04598985277293
+1,GPT-2,weibull,-87.40206662937098
+1,GPT-2,exponential,-98.19172863541402
+1,GPT-2,logistic,-87.70659190070282
+1,GPT-4 0125,weibull,-60.705736773508505
+1,GPT-4 0125,exponential,-64.80128050823735
+1,GPT-4 0125,logistic,-58.52427229596188
+1,GPT-4 0314,weibull,-64.67684393854782
+1,GPT-4 0314,exponential,-71.69994230203261
+1,GPT-4 0314,logistic,-64.01434176295002
+1,GPT-4 1106,weibull,-83.09355282057211
+1,GPT-4 1106,exponential,-87.98021591064285
+1,GPT-4 1106,logistic,-85.31691022157537
+1,GPT-4 Turbo,weibull,-71.47464403563855
+1,GPT-4 Turbo,exponential,-76.38225527957384
+1,GPT-4 Turbo,logistic,-67.81691299274718
+1,GPT-4o,weibull,-86.63341500773342
+1,GPT-4o,exponential,-97.01572624046456
+1,GPT-4o,logistic,-88.25809975844902
+1,davinci-002 (GPT-3),weibull,-57.351750501757564
+1,davinci-002 (GPT-3),exponential,-54.60300743333967
+1,davinci-002 (GPT-3),logistic,-58.66517895205326
+1,gpt-3.5-turbo-instruct,weibull,-28.71409838464095
+1,gpt-3.5-turbo-instruct,exponential,-28.51439922183401
+1,gpt-3.5-turbo-instruct,logistic,-28.81828692315188
+1,o1,weibull,-90.43768050541514
+1,o1,exponential,-100.69378945705716
+1,o1,logistic,-88.8479132079608
+1,o1-preview,weibull,-92.11798241900254
+1,o1-preview,exponential,-103.16453184365086
+1,o1-preview,logistic,-92.03343041144464
+2,Claude 3 Opus,weibull,-81.54276749530881
+2,Claude 3 Opus,exponential,-89.44954961063752
+2,Claude 3 Opus,logistic,-81.388492853652
+2,Claude 3.5 Sonnet (New),weibull,-89.74570079732045
+2,Claude 3.5 Sonnet (New),exponential,-97.4093889401504
+2,Claude 3.5 Sonnet (New),logistic,-89.3524646342942
+2,Claude 3.5 Sonnet (Old),weibull,-98.20965994445136
+2,Claude 3.5 Sonnet (Old),exponential,-124.6487624732573
+2,Claude 3.5 Sonnet (Old),logistic,-92.93439605734254
+2,Claude 3.7 Sonnet,weibull,-89.0715881890569
+2,Claude 3.7 Sonnet,exponential,-91.51196077669344
+2,Claude 3.7 Sonnet,logistic,-87.11733736796788
+2,GPT-2,weibull,-81.92527899502716
+2,GPT-2,exponential,-93.09023160800704
+2,GPT-2,logistic,-82.27025149904668
+2,GPT-4 0125,weibull,-68.44134227424516
+2,GPT-4 0125,exponential,-69.10459180936527
+2,GPT-4 0125,logistic,-68.51980194531606
+2,GPT-4 0314,weibull,-70.83292543700344
+2,GPT-4 0314,exponential,-75.78239149300396
+2,GPT-4 0314,logistic,-69.2289103512715
+2,GPT-4 1106,weibull,-102.20673902332571
+2,GPT-4 1106,exponential,-131.31155010618227
+2,GPT-4 1106,logistic,-97.88610003021802
+2,GPT-4 Turbo,weibull,-66.94256221394272
+2,GPT-4 Turbo,exponential,-67.98825425784617
+2,GPT-4 Turbo,logistic,-65.26618233278529
+2,GPT-4o,weibull,-94.24326428200717
+2,GPT-4o,exponential,-103.6051995077571
+2,GPT-4o,logistic,-93.08319961826064
+2,davinci-002 (GPT-3),weibull,-65.03468745157355
+2,davinci-002 (GPT-3),exponential,-67.26903179735535
+2,davinci-002 (GPT-3),logistic,-65.2088682446244
+2,gpt-3.5-turbo-instruct,weibull,-55.18968464362581
+2,gpt-3.5-turbo-instruct,exponential,-44.8334265738887
+2,gpt-3.5-turbo-instruct,logistic,-29.319339849271028
+2,o1,weibull,-80.22993839419009
+2,o1,exponential,-87.4780452638343
+2,o1,logistic,-82.24416502101468
+2,o1-preview,weibull,-79.7190568701117
+2,o1-preview,exponential,-83.14416283326688
+2,o1-preview,logistic,-83.06067836137888
+3,Claude 3 Opus,weibull,-86.85810951887677
+3,Claude 3 Opus,exponential,-102.90398080424566
+3,Claude 3 Opus,logistic,-84.98619684523311
+3,Claude 3.5 Sonnet (New),weibull,-84.68644153249598
+3,Claude 3.5 Sonnet (New),exponential,-97.44434732745461
+3,Claude 3.5 Sonnet (New),logistic,-82.77859498567123
+3,Claude 3.5 Sonnet (Old),weibull,-83.26882297804745
+3,Claude 3.5 Sonnet (Old),exponential,-92.05420059887268
+3,Claude 3.5 Sonnet (Old),logistic,-80.96872764147851
+3,Claude 3.7 Sonnet,weibull,-67.02014858583212
+3,Claude 3.7 Sonnet,exponential,-67.55566349215685
+3,Claude 3.7 Sonnet,logistic,-66.34163622635187
+3,GPT-2,weibull,-78.83049357098983
+3,GPT-2,exponential,-77.81358786772378
+3,GPT-2,logistic,-80.18272669040269
+3,GPT-4 0125,weibull,-61.32461046822836
+3,GPT-4 0125,exponential,-63.39070342372373
+3,GPT-4 0125,logistic,-58.422065941672344
+3,GPT-4 0314,weibull,-69.05930493101471
+3,GPT-4 0314,exponential,-74.87536122748405
+3,GPT-4 0314,logistic,-68.84843605163911
+3,GPT-4 1106,weibull,-75.53232084761517
+3,GPT-4 1106,exponential,-84.08272597792791
+3,GPT-4 1106,logistic,-74.35278980536246
+3,GPT-4 Turbo,weibull,-60.01782462876115
+3,GPT-4 Turbo,exponential,-62.05627915345508
+3,GPT-4 Turbo,logistic,-58.028579860296205
+3,GPT-4o,weibull,-87.93450887892777
+3,GPT-4o,exponential,-98.21711102224795
+3,GPT-4o,logistic,-88.25809770657403
+3,davinci-002 (GPT-3),weibull,-65.09088135647339
+3,davinci-002 (GPT-3),exponential,-66.72645334878493
+3,davinci-002 (GPT-3),logistic,-66.4832954540939
+3,gpt-3.5-turbo-instruct,weibull,-25.24288120556791
+3,gpt-3.5-turbo-instruct,exponential,-24.90607743591114
+3,gpt-3.5-turbo-instruct,logistic,-23.326508329230023
+3,o1,weibull,-95.21013304725084
+3,o1,exponential,-105.62653485831841
+3,o1,logistic,-96.22450045049843
+3,o1-preview,weibull,-79.91470102011763
+3,o1-preview,exponential,-85.5646694601229
+3,o1-preview,logistic,-79.08799259383771
+4,Claude 3 Opus,weibull,-74.28511610484067
+4,Claude 3 Opus,exponential,-78.82860377475725
+4,Claude 3 Opus,logistic,-74.67412641711216
+4,Claude 3.5 Sonnet (New),weibull,-78.79965492255435
+4,Claude 3.5 Sonnet (New),exponential,-84.25569867573593
+4,Claude 3.5 Sonnet (New),logistic,-77.00659530547405
+4,Claude 3.5 Sonnet (Old),weibull,-103.19533566102149
+4,Claude 3.5 Sonnet (Old),exponential,-124.29535477035242
+4,Claude 3.5 Sonnet (Old),logistic,-100.01148349652658
+4,Claude 3.7 Sonnet,weibull,-51.34328220918822
+4,Claude 3.7 Sonnet,exponential,-50.43618510548196
+4,Claude 3.7 Sonnet,logistic,-53.48896895379604
+4,GPT-2,weibull,-97.47744661310898
+4,GPT-2,exponential,-107.66232804410691
+4,GPT-2,logistic,-97.44867537499704
+4,GPT-4 0125,weibull,-66.1460039570888
+4,GPT-4 0125,exponential,-67.9377852888914
+4,GPT-4 0125,logistic,-62.7321752980302
+4,GPT-4 0314,weibull,-67.98221382514076
+4,GPT-4 0314,exponential,-71.9699515007096
+4,GPT-4 0314,logistic,-67.84211436526257
+4,GPT-4 1106,weibull,-97.00458067322292
+4,GPT-4 1106,exponential,-108.19030382106425
+4,GPT-4 1106,logistic,-99.33592564111031
+4,GPT-4 Turbo,weibull,-70.35807266702984
+4,GPT-4 Turbo,exponential,-68.69023521213661
+4,GPT-4 Turbo,logistic,-73.28302743319888
+4,GPT-4o,weibull,-73.96583017569104
+4,GPT-4o,exponential,-73.66396682753896
+4,GPT-4o,logistic,-74.65577533826598
+4,davinci-002 (GPT-3),weibull,-72.60113070013954
+4,davinci-002 (GPT-3),exponential,-72.8000928549954
+4,davinci-002 (GPT-3),logistic,-72.53985241129448
+4,gpt-3.5-turbo-instruct,weibull,-33.86483835527642
+4,gpt-3.5-turbo-instruct,exponential,-33.77958253145145
+4,gpt-3.5-turbo-instruct,logistic,-31.77852982788834
+4,o1,weibull,-91.52821670663235
+4,o1,exponential,-106.79109550566824
+4,o1,logistic,-92.12711202621746
+4,o1-preview,weibull,-70.70324584367376
+4,o1-preview,exponential,-68.90571455097326
+4,o1-preview,logistic,-70.57992443232769
+5,Claude 3 Opus,weibull,-73.44714240895811
+5,Claude 3 Opus,exponential,-82.0002896637918
+5,Claude 3 Opus,logistic,-71.10385675226928
+5,Claude 3.5 Sonnet (New),weibull,-107.8633553417898
+5,Claude 3.5 Sonnet (New),exponential,-130.51159458976474
+5,Claude 3.5 Sonnet (New),logistic,-107.10208054873678
+5,Claude 3.5 Sonnet (Old),weibull,-84.14508972146052
+5,Claude 3.5 Sonnet (Old),exponential,-89.21184306821681
+5,Claude 3.5 Sonnet (Old),logistic,-83.44851245171057
+5,Claude 3.7 Sonnet,weibull,-59.351468887270464
+5,Claude 3.7 Sonnet,exponential,-58.66389741623074
+5,Claude 3.7 Sonnet,logistic,-61.65439651099015
+5,GPT-2,weibull,-90.58648377315109
+5,GPT-2,exponential,-95.75563792459474
+5,GPT-2,logistic,-91.77469272547035
+5,GPT-4 0125,weibull,-76.33158012899764
+5,GPT-4 0125,exponential,-92.43243731634257
+5,GPT-4 0125,logistic,-66.82317957338377
+5,GPT-4 0314,weibull,-72.62747222304047
+5,GPT-4 0314,exponential,-81.48411068063257
+5,GPT-4 0314,logistic,-70.91114940820508
+5,GPT-4 1106,weibull,-83.2377446022469
+5,GPT-4 1106,exponential,-87.58073490573848
+5,GPT-4 1106,logistic,-84.51972035540955
+5,GPT-4 Turbo,weibull,-60.59415346143297
+5,GPT-4 Turbo,exponential,-63.19234271251344
+5,GPT-4 Turbo,logistic,-56.85269816781782
+5,GPT-4o,weibull,-75.86377640834331
+5,GPT-4o,exponential,-81.36221127618782
+5,GPT-4o,logistic,-75.8796821718735
+5,davinci-002 (GPT-3),weibull,-55.278950308965406
+5,davinci-002 (GPT-3),exponential,-54.94424423264091
+5,davinci-002 (GPT-3),logistic,-56.68366732396147
+5,gpt-3.5-turbo-instruct,weibull,-20.3693006351768
+5,gpt-3.5-turbo-instruct,exponential,-19.3777318523668
+5,gpt-3.5-turbo-instruct,logistic,-18.140886280762466
+5,o1,weibull,-79.72596726267453
+5,o1,exponential,-81.50160138037381
+5,o1,logistic,-81.00736252535822
+5,o1-preview,weibull,-82.61447980104792
+5,o1-preview,exponential,-86.41295747629607
+5,o1-preview,logistic,-82.59204017726333

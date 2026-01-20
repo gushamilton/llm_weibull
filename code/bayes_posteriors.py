@@ -93,11 +93,11 @@ def write_outputs(trace, models):
     model_map = pd.read_csv(model_map_path)
 
     k_rows = summary[summary.index.str.startswith("k[")].copy()
-    k_rows["model_idx"] = k_rows.index.str.extract(r"k\[(\d+)\]")[0].astype(int)
+    k_rows["model_idx"] = k_rows.index.str.extract(r"k\[(\d+)\]")[0].astype(int).to_numpy()
     k_rows = k_rows.merge(model_map, on="model_idx", how="left")
 
     lam_rows = summary[summary.index.str.startswith("lam[")].copy()
-    lam_rows["model_idx"] = lam_rows.index.str.extract(r"lam\[(\d+)\]")[0].astype(int)
+    lam_rows["model_idx"] = lam_rows.index.str.extract(r"lam\[(\d+)\]")[0].astype(int).to_numpy()
     lam_rows = lam_rows.merge(model_map, on="model_idx", how="left")
 
     if k_rows["alias"].isna().any() or lam_rows["alias"].isna().any():
@@ -158,11 +158,14 @@ def main():
 
     trace = fit_hierarchical_weibull(df, models)
     summary_path, k_plot_path, lam_plot_path, model_map_path = write_outputs(trace, models)
+    trace_path = OUTPUT_DIR / "posterior_trace.nc"
+    trace.to_netcdf(trace_path)
 
     print(f"Saved summary: {summary_path}")
     print(f"Saved model map: {model_map_path}")
     print(f"Saved plot: {k_plot_path}")
     print(f"Saved plot: {lam_plot_path}")
+    print(f"Saved trace: {trace_path}")
 
 
 if __name__ == "__main__":

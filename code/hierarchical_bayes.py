@@ -140,10 +140,13 @@ def main():
 
     trace = run_bayesian_model(df, models)
     summary_path, prob_path = plot_results(trace, models)
+    trace_path = OUTPUT_DIR / "posterior_trace.nc"
+    trace.to_netcdf(trace_path)
 
     print(f"Saved posterior summary: {summary_path}")
     print(f"Saved P(k>1) table: {prob_path}")
     print(f"Saved plots to: {OUTPUT_DIR}")
+    print(f"Saved trace: {trace_path}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,4 @@
+,rank,elpd_loo,p_loo,elpd_diff,weight,se,dse,warning,scale
+Logistic (Standard),0,-5211.019157066819,23.738078084898007,0.0,0.3333333333333333,65.67712337525667,0.0,False,log
+Weibull (Varying),1,,,,0.3333333333333333,,,True,log
+Exponential (Constant),2,,,,0.3333333333333333,,,True,log

@@ -197,15 +197,26 @@ def task_group_stratification(df: pd.DataFrame):
     out_path = OUTPUT_DIR / "task_group_model_weibull.csv"
     out.to_csv(out_path, index=False)
 
-    # Plot lambda by group
+    # Plot lambda by group (filter invalid values)
     fig, axes = plt.subplots(1, len(TASK_GROUPS), figsize=(14, 6), sharey=True)
     for ax, group in zip(axes, TASK_GROUPS):
-        sdf = out[out["task_source"] == group].copy().sort_values(by="lambda")
-        ax.scatter(sdf["lambda"], sdf["alias"], color="#2ca02c")
-        ax.set_xscale("log")
+        sdf = out[out["task_source"] == group].copy()
+        sdf = sdf[np.isfinite(sdf["lambda"]) & (sdf["lambda"] > 0)]
+        if sdf.empty:
+            ax.set_title(f"{group} (no data)")
+            ax.axis("off")
+            continue
+        # Cap extreme values to avoid log-scale overflow
+        cap = np.nanpercentile(sdf["lambda"], 95)
+        if not np.isfinite(cap):
+            cap = np.nanmax(sdf["lambda"])
+        sdf["lambda_plot"] = np.minimum(sdf["lambda"], cap)
+        sdf["lambda_log10"] = np.log10(sdf["lambda_plot"])
+        sdf = sdf.sort_values(by="lambda_log10")
+        ax.scatter(sdf["lambda_log10"], sdf["alias"], color="#2ca02c")
         ax.set_title(group)
         ax.grid(True, axis="x", alpha=0.3)
-        ax.set_xlabel("lambda (log)")
+        ax.set_xlabel("log10(lambda)")
     axes[0].set_ylabel("Model Alias")
     plt.tight_layout()
 
