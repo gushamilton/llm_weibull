@@ -42,10 +42,11 @@ You can override paths and thresholds via environment variables:
 - Weibull parameter CIs: `results_mle/weibull_params_with_bootstrap_ci.csv`
 - Bayesian comparison: `results_mle/bayes_compare/bayesian_model_comparison_waic.csv`
 - Stratified summaries: `results_mle/stratified/` and `results_mle/stratified_task_groups/`
+- Human vs AI forest plot: `results_mle/additional/human_ai_k_forest.png`
 
 ## Key Results (In Order)
-1) Frequentist fits: logistic wins BIC for about half the models, Weibull is close behind, exponential rarely wins.
-2) Weibull k estimates: k < 1 is common, consistent with decreasing hazard / "infant mortality".
+1) Frequentist fits: logistic vs Weibull BIC is tied 7–7 in the current head-to-head run.
+2) Weibull k estimates: k < 1 is common, consistent with decreasing hazard.
 3) Bayesian model comparison (AI-only): WAIC prefers logistic overall, Weibull second.
 4) Hierarchical Bayes: posterior mass for k > 1 is near zero in these runs.
 5) Stratified analyses: HCAST shows strong k < 1; RE-Bench and SWAA overlap k ≈ 1.

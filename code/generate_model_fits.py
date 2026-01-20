@@ -86,12 +86,13 @@ def main() -> None:
         bic_exp = bic_from_ll(fit_exp.ll, 1, n) if fit_exp.success else np.nan
         bic_weib = bic_from_ll(fit_weib.ll, 2, n) if fit_weib.success else np.nan
 
-        bics = {"logistic": bic_log, "exponential": bic_exp, "weibull": bic_weib}
+        bics = {"logistic": bic_log, "weibull": bic_weib}
         best_bic = min(bics.items(), key=lambda kv: kv[1] if np.isfinite(kv[1]) else np.inf)[0]
 
         b0, b1 = fit_log.params if fit_log.success else (np.nan, np.nan)
         (lam_exp,) = fit_exp.params if fit_exp.success else (np.nan,)
         lam_weib, k_weib = fit_weib.params if fit_weib.success else (np.nan, np.nan)
+        is_effectively_exponential = bool(np.isfinite(k_weib) and 0.9 < k_weib < 1.1)
 
         rows.append(
             {
@@ -102,6 +103,7 @@ def main() -> None:
                 "exponential_lambda": lam_exp,
                 "weibull_lambda": lam_weib,
                 "weibull_k": k_weib,
+                "is_effectively_exponential": is_effectively_exponential,
                 "ll_logistic": fit_log.ll,
                 "ll_exponential": fit_exp.ll,
                 "ll_weibull": fit_weib.ll,
@@ -150,7 +152,7 @@ def main() -> None:
         plt.ylim(-0.05, 1.05)
         plt.xlabel("Task Difficulty (Human Minutes) [Log Scale]")
         plt.ylabel("Probability of Success")
-        plt.title(f"{alias} | Best BIC: {best_bic}")
+        plt.title(f"{alias} | Best BIC (Logistic vs Weibull): {best_bic}")
         plt.legend()
         plt.grid(True, which="both", alpha=0.3)
         plt.tight_layout()
