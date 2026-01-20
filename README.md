@@ -9,7 +9,7 @@ model comparison, stratified analyses, and bootstrap checks.
 - `code/` — analysis scripts (MLE fits, Bayesian models, bootstraps, stratified runs).
 - `results_mle/` — primary outputs for the current analysis pass.
 - `docs/` — written summaries and reports.
-- `eval-analysis-public/` — upstream METR repo and data (vendored copy).
+- `eval-analysis-public/` — upstream METR repo and data (git submodule).
 - `benchmark_results.yaml` — benchmark snapshot used in some summaries.
 
 ## Data Inputs

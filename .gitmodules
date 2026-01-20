@@ -1,0 +1,3 @@
+[submodule "eval-analysis-public"]
+	path = eval-analysis-public
+	url = https://github.com/METR/eval-analysis-public.git
