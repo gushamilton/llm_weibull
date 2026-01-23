@@ -94,6 +94,39 @@ def corr_heatmap(metrics):
     return str(path)
 
 
+def plot_k_vs_capability(metrics):
+    """
+    Scatter plot of Weibull K (Shape) vs. Accuracy (Capability).
+    """
+    plt.figure(figsize=(8, 6))
+
+    # Filter for AI only
+    df = metrics[metrics["alias"] != "human"].copy()
+
+    plt.scatter(df["accuracy"], df["k"], color="#1f77b4", s=80, alpha=0.8)
+
+    # Add trendline
+    if len(df) > 2:
+        z = np.polyfit(df["accuracy"], df["k"], 1)
+        p = np.poly1d(z)
+        x_line = np.linspace(df["accuracy"].min(), df["accuracy"].max(), 100)
+        plt.plot(x_line, p(x_line), "k--", alpha=0.3, label="Trend")
+
+    plt.axhline(1.0, color="red", linestyle="--", label="Random Failure (k=1)")
+
+    plt.xlabel("General Capability (Mean Accuracy)")
+    plt.ylabel("Reliability Shape (Weibull k)")
+    plt.title("Scaling Check: Does 'Smarter' mean 'Tougher'?")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+
+    path = OUTPUT_DIR / "k_vs_capability.png"
+    plt.savefig(path)
+    plt.close()
+    return str(path)
+
+
 def main():
     ensure_dir(OUTPUT_DIR)
     metrics = load_model_metrics()
@@ -101,10 +134,12 @@ def main():
     metrics_path = OUTPUT_DIR / "model_level_metrics.csv"
     metrics.to_csv(metrics_path, index=False)
 
+    k_vs_capability = plot_k_vs_capability(metrics)
     lambda_plot = plot_lambda_vs_accuracy(metrics)
     corr_plot = corr_heatmap(metrics)
 
     print(str(metrics_path))
+    print(k_vs_capability)
     print(lambda_plot)
     print(corr_plot)
 

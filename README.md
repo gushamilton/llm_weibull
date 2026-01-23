@@ -43,6 +43,7 @@ You can override paths and thresholds via environment variables:
 - Bayesian comparison: `results_mle/bayes_compare/bayesian_model_comparison_waic.csv`
 - Stratified summaries: `results_mle/stratified/` and `results_mle/stratified_task_groups/`
 - Human vs AI forest plot: `results_mle/additional/human_ai_k_forest.png`
+- Avg log-diff curve: `results_mle/additional/avg_log_diff_logistic_vs_weibull_by_p.png`
 
 ## Key Results (In Order)
 1) Frequentist fits: logistic vs Weibull BIC is tied 7–7 in the current head-to-head run.
@@ -60,3 +61,32 @@ You can override paths and thresholds via environment variables:
 ## Notes
 - `results_mle/` is the authoritative output set for current runs.
 - Some Bayesian runs emit diagnostics warnings; the k-fold CV results are the most stable.
+
+## Interpreting the Avg Log-Diff Curve
+This is the most common source of confusion, so here is the exact definition and how to read it.
+
+**What is plotted**
+- File: `results_mle/additional/avg_log_diff_logistic_vs_weibull_by_p.png`
+- Curve value at probability `p` is:
+  - `mean ln( t_logistic(p) / t_weibull(p) )` across models.
+- The x-axis is `p` on a log scale from `1e-4` to `0.9999`.
+
+**How horizons are computed**
+- Logistic model: `p = sigmoid(b0 + b1 * ln(t))`
+  - Invert to get `t_logistic(p) = exp((logit(p) - b0) / b1)`
+- Weibull model: `p = exp(-(λ t)^k)` (survival form used in this repo)
+  - Invert to get `t_weibull(p) = (-ln(p))^(1/k) / λ`
+
+**How to read the sign**
+- Positive value: `t_logistic(p) > t_weibull(p)` ⇒ logistic predicts longer horizons.
+- Negative value: `t_logistic(p) < t_weibull(p)` ⇒ Weibull predicts longer horizons.
+
+**Why the ends can be positive**
+- If the curve is positive at both extremes, that means logistic predicts longer horizons at both
+  very low success probabilities (p → 0) and very high success probabilities (p → 1).
+- A sign change in the middle implies a regime where Weibull predicts longer horizons for
+  intermediate `p`.
+
+**What the uncertainty band is**
+- `avg_log_diff_logistic_vs_weibull_by_p_with_uncertainty.png` uses the 16th/84th percentiles
+  across models at each `p` (not a bootstrap CI).

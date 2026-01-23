@@ -28,71 +28,49 @@ def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     rows = load_weibull_rows(WEIBULL_CSV)
-    ai_rows = []
-    human_row = None
-
+    entries = []
     for row in rows:
         alias = row["alias"]
-        k = float(row["k"])
-        k_low = float(row["k_ci_low"])
-        k_high = float(row["k_ci_high"])
-        entry = {"alias": alias, "k": k, "k_low": k_low, "k_high": k_high}
-        if alias.strip().lower() == "human":
-            human_row = entry
-        else:
-            ai_rows.append(entry)
+        entries.append(
+            {
+                "alias": alias,
+                "k": float(row["k"]),
+                "k_low": float(row["k_ci_low"]),
+                "k_high": float(row["k_ci_high"]),
+                "is_human": alias.strip().lower() == "human",
+            }
+        )
 
-    ai_rows.sort(key=lambda r: r["k"])
+    entries.sort(key=lambda r: r["k"], reverse=True)
 
-    labels = [r["alias"] for r in ai_rows]
-    ks = np.array([r["k"] for r in ai_rows])
-    k_err_low = ks - np.array([r["k_low"] for r in ai_rows])
-    k_err_high = np.array([r["k_high"] for r in ai_rows]) - ks
+    labels = [r["alias"] for r in entries]
+    ks = np.array([r["k"] for r in entries])
+    k_err_low = ks - np.array([r["k_low"] for r in entries])
+    k_err_high = np.array([r["k_high"] for r in entries]) - ks
+    colors = ["#d62728" if r["is_human"] else "#1f77b4" for r in entries]
 
-    y_pos = np.arange(len(ai_rows))
+    y_pos = np.arange(len(entries))
 
-    plt.figure(figsize=(8, max(6, 0.35 * len(ai_rows) + 2)))
-    plt.errorbar(
-        ks,
-        y_pos,
-        xerr=[k_err_low, k_err_high],
-        fmt="o",
-        color="#1f77b4",
-        ecolor="#1f77b4",
-        elinewidth=1.5,
-        capsize=3,
-        label="AI models",
-    )
-
-    if human_row is not None:
-        human_y = len(ai_rows) + 0.8
+    plt.figure(figsize=(8, max(6, 0.35 * len(entries) + 2)))
+    for idx in range(len(entries)):
         plt.errorbar(
-            [human_row["k"]],
-            [human_y],
-            xerr=[[human_row["k"] - human_row["k_low"]], [human_row["k_high"] - human_row["k"]]],
+            ks[idx],
+            y_pos[idx],
+            xerr=[[k_err_low[idx]], [k_err_high[idx]]],
             fmt="o",
-            color="#d62728",
-            ecolor="#d62728",
-            elinewidth=2,
-            capsize=4,
-            label="Human",
+            ecolor=colors[idx],
+            color=colors[idx],
+            elinewidth=1.5,
+            capsize=3,
+            linestyle="none",
+            zorder=3,
         )
-        plt.annotate(
-            "Humans: Rapidly Decreasing Hazard (K ≈ 0.37)",
-            xy=(human_row["k"], human_y),
-            xytext=(human_row["k"] + 0.2, human_y + 0.4),
-            arrowprops=dict(arrowstyle="->", color="#d62728"),
-            color="#d62728",
-            fontsize=10,
-        )
-
-    plt.axvline(1.0, color="black", linestyle="--", linewidth=1.5, label="K = 1 (random failure)")
-    plt.axvline(0.5, color="gray", linestyle="--", linewidth=1.2, label="K = 0.5 (strongly decreasing)")
 
     plt.yticks(y_pos, labels)
     plt.xlabel("Weibull Shape Parameter (K)")
     plt.ylabel("Model Alias")
     plt.title("Weibull K by Model (Human vs AI)")
+    plt.axvline(1.0, color="black", linestyle="--", linewidth=1.5, label="Constant Hazard (K=1)")
     plt.grid(True, axis="x", alpha=0.3)
     plt.legend(loc="lower right")
     plt.tight_layout()
