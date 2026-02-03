@@ -1,92 +1,127 @@
-# Computational Peto's Paradox (METR Agentic Tasks)
+# Peto's Paradox and AI Agent Reliability
 
-This repo analyzes METR's public task-run data to compare hazard models for AI task
-success (logistic vs Weibull vs exponential) and test for decreasing hazard
-(Peto-style "infant mortality"). It includes frequentist curve fits, Bayesian
-model comparison, stratified analyses, and bootstrap checks.
+> **Companion repository** to the blog post: [Peto's Paradox and the Future of AI Agents](https://gushamilton.github.io/lab/2026/01/23/petos-paradox-ai-agents/)
 
-## Repository Layout
-- `code/` — analysis scripts (MLE fits, Bayesian models, bootstraps, stratified runs).
-- `results_mle/` — primary outputs for the current analysis pass.
-- `docs/` — written summaries and reports.
-- `eval-analysis-public/` — upstream METR repo and data (git submodule).
-- `benchmark_results.yaml` — benchmark snapshot used in some summaries.
+This repository contains all code and data for analyzing METR's agentic task data using survival analysis methods. We compare logistic and Weibull models to understand how AI agent failure rates behave over time.
 
-## Data Inputs
-- Primary dataset: `eval-analysis-public/data/external/all_runs.jsonl`.
-- If you store the dataset elsewhere, set `PETO_DATA_FILE` to its path.
+---
 
-## Quickstart
-All scripts default to reading from `eval-analysis-public` and writing to
-`results_mle/`.
+## Key Findings
+
+### 1. All models show decreasing hazard over time (κ < 1)
+
+![Kappa by model](figures/fig1_kappa_by_model.png)
+
+The Weibull shape parameter κ is consistently below 1 for all tested models (and humans), suggesting a "Lindy effect"—models don't accumulate errors and fail more as tasks get longer. Instead, **hazard decreases over time**. This is encouraging for long-term agentic reliability.
+
+---
+
+### 2. Humans have fundamentally different reliability architecture
+
+![Lambda by model](figures/fig2_lambda_by_model.png)
+![Kappa vs accuracy](figures/fig3_kappa_vs_accuracy.png)
+
+- **Humans**: κ ≈ 0.37 — if a human survives the first few minutes, they rarely fail later
+- **Frontier AI models**: κ ≈ 0.6–0.9 — maintain a higher background rate of random failure
+
+Critically, **model size correlates with lower λ (hazard rate) but NOT with lower κ**. Larger models fail less often, but don't seem to get intrinsically better at reducing hazard over time like humans do.
+
+---
+
+### 3. Weibull vs Logistic: Same median, divergent tails
+
+![GPT-4o model fit](figures/fig4_gpt4o_model_fit.png)
+![Human model fit](figures/fig5_human_model_fit.png)
+![Horizon ratio](figures/fig6_horizon_ratio.png)
+
+Both models fit the median data almost identically (BIC is tied 7-7 across models). However, at extreme success probabilities:
+
+| Success Rate | Horizon Ratio (Logistic/Weibull) |
+|--------------|----------------------------------|
+| 50%          | ~1x (identical)                  |
+| 99.9%        | ~10x                             |
+| 99.99%       | ~100x                            |
+
+**The tails matter enormously** for real-world reliability requirements.
+
+---
+
+## Quick Start
 
 ```bash
+# Clone with submodule (contains METR data)
+git clone --recurse-submodules https://github.com/gushamilton/llm_weibull
+
+# Install dependencies
+pip install -r requirements.txt  # or use Poetry with eval-analysis-public
+
+# Run the main analysis
 python code/generate_model_fits.py
 ```
 
-## Environment
-- For dependencies, see `eval-analysis-public/README.md` (Poetry + DVC setup).
-- Any Python environment with the required packages is fine.
+---
+
+## Repository Structure
+
+```
+├── figures/              # Key figures from the blog post
+├── code/                 # All analysis scripts
+│   ├── generate_model_fits.py      # Main MLE fitting
+│   ├── generate_final_figures.py   # Blog figure generation
+│   ├── bootstrap_*.py              # Bootstrap CI calculations
+│   └── bayesian_*.py               # Bayesian model comparison
+├── results_mle/          # Analysis outputs
+│   ├── model_fit_summary.csv
+│   ├── weibull_params_with_bootstrap_ci.csv
+│   └── additional/       # Extended analyses
+├── docs/                 # Technical documentation
+│   ├── key_results.md    # Detailed results walkthrough
+│   └── peto_report.md    # Initial analysis report
+└── eval-analysis-public/ # METR data (git submodule)
+```
+
+---
+
+## Technical Details
+
+### Models Compared
+
+- **Logistic**: Standard S-curve fit (METR's approach)
+- **Weibull**: Survival model with shape parameter κ controlling hazard evolution
+- **Exponential**: Constant hazard baseline
+
+### Key Outputs
+
+| Output | Description |
+|--------|-------------|
+| `results_mle/model_fit_summary.csv` | BIC/AIC comparison across models |
+| `results_mle/weibull_params_with_bootstrap_ci.csv` | κ and λ estimates with CIs |
+| `results_mle/bayes_compare_kfold/` | K-fold cross-validation (most robust) |
+
+See [`docs/key_results.md`](docs/key_results.md) for a complete walkthrough of all analyses.
+
+---
 
 ## Configuration
-You can override paths and thresholds via environment variables:
-- `PETO_DATA_FILE` (default: `eval-analysis-public/data/external/all_runs.jsonl`)
-- `PETO_RESULTS_ROOT` (default: `results_mle`)
-- `PETO_OUTPUT_DIR` (default: `results_mle`)
-- `PETO_ADDITIONAL_DIR` (default: `results_mle/additional`)
-- `PETO_WEIBULL_CSV` (default: `results_mle/weibull_params_with_bootstrap_ci.csv`)
-- `PETO_MIN_N`, `BOOTSTRAP_N`, `BURNIN_MINUTES`, etc. (see script headers)
 
-## Key Outputs
-- MLE fit summary: `results_mle/model_fit_summary.csv`
-- Weibull parameter CIs: `results_mle/weibull_params_with_bootstrap_ci.csv`
-- Bayesian comparison: `results_mle/bayes_compare/bayesian_model_comparison_waic.csv`
-- Stratified summaries: `results_mle/stratified/` and `results_mle/stratified_task_groups/`
-- Human vs AI forest plot: `results_mle/additional/human_ai_k_forest.png`
-- Avg log-diff curve: `results_mle/additional/avg_log_diff_logistic_vs_weibull_by_p.png`
+Override paths via environment variables:
 
-## Key Results (In Order)
-1) Frequentist fits: logistic vs Weibull BIC is tied 7–7 in the current head-to-head run.
-2) Weibull k estimates: k < 1 is common, consistent with decreasing hazard.
-3) Bayesian model comparison (AI-only): WAIC prefers logistic overall, Weibull second.
-4) Hierarchical Bayes: posterior mass for k > 1 is near zero in these runs.
-5) Stratified analyses: HCAST shows strong k < 1; RE-Bench and SWAA overlap k ≈ 1.
-6) Horizon comparisons: logistic vs Weibull horizons are similar but diverge at extremes for some models.
-7) k-fold CV: logistic > Weibull > exponential; this is the most robust comparison.
+```bash
+export PETO_DATA_FILE="path/to/all_runs.jsonl"
+export PETO_RESULTS_ROOT="results_mle"
+```
 
-## Reports
-- `docs/peto_report.md` — short report on the initial fit and hierarchical model.
-- `docs/key_results.md` — ordered, concise walkthrough of the findings.
+---
 
-## Notes
-- `results_mle/` is the authoritative output set for current runs.
-- Some Bayesian runs emit diagnostics warnings; the k-fold CV results are the most stable.
+## Citation
 
-## Interpreting the Avg Log-Diff Curve
-This is the most common source of confusion, so here is the exact definition and how to read it.
+If you use this analysis, please cite the blog post:
 
-**What is plotted**
-- File: `results_mle/additional/avg_log_diff_logistic_vs_weibull_by_p.png`
-- Curve value at probability `p` is:
-  - `mean ln( t_logistic(p) / t_weibull(p) )` across models.
-- The x-axis is `p` on a log scale from `1e-4` to `0.9999`.
+```
+Hamilton, F. (2026). Peto's Paradox and the Future of AI Agents. 
+https://gushamilton.github.io/lab/2026/01/23/petos-paradox-ai-agents/
+```
 
-**How horizons are computed**
-- Logistic model: `p = sigmoid(b0 + b1 * ln(t))`
-  - Invert to get `t_logistic(p) = exp((logit(p) - b0) / b1)`
-- Weibull model: `p = exp(-(λ t)^k)` (survival form used in this repo)
-  - Invert to get `t_weibull(p) = (-ln(p))^(1/k) / λ`
+## Acknowledgments
 
-**How to read the sign**
-- Positive value: `t_logistic(p) > t_weibull(p)` ⇒ logistic predicts longer horizons.
-- Negative value: `t_logistic(p) < t_weibull(p)` ⇒ Weibull predicts longer horizons.
-
-**Why the ends can be positive**
-- If the curve is positive at both extremes, that means logistic predicts longer horizons at both
-  very low success probabilities (p → 0) and very high success probabilities (p → 1).
-- A sign change in the middle implies a regime where Weibull predicts longer horizons for
-  intermediate `p`.
-
-**What the uncertainty band is**
-- `avg_log_diff_logistic_vs_weibull_by_p_with_uncertainty.png` uses the 16th/84th percentiles
-  across models at each `p` (not a bootstrap CI).
+Data from [METR's eval-analysis-public](https://github.com/METR/eval-analysis-public). Thanks to METR for making this data freely available.

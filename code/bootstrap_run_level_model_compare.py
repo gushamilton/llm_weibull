@@ -48,6 +48,14 @@ def _plot_diff_ci(df: pd.DataFrame, base_col: str, out_path: Path, title: str):
     sdf = df.sort_values(by=base_col, ascending=True).reset_index(drop=True)
     y = np.arange(len(sdf))
 
+    # Determine label based on column
+    if "bic" in base_col.lower():
+        xlabel = "ΔBIC (Logistic − Weibull)"
+    elif "aic" in base_col.lower():
+        xlabel = "ΔAIC (Logistic − Weibull)"
+    else:
+        xlabel = base_col
+
     plt.figure(figsize=(8, max(6, 0.35 * len(sdf))))
     plt.errorbar(
         sdf[base_col],
@@ -62,11 +70,21 @@ def _plot_diff_ci(df: pd.DataFrame, base_col: str, out_path: Path, title: str):
     )
     plt.axvline(0.0, color="red", linestyle="--", linewidth=1)
     plt.yticks(y, sdf["alias"])
-    plt.xlabel(base_col)
-    plt.title(title)
+    plt.xlabel(xlabel, fontsize=10)
+    plt.title(title, fontsize=11)
     plt.grid(True, axis="x", alpha=0.3)
+
+    # Add region annotations
+    ax = plt.gca()
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+    ax.text(xlim[0] + 0.02 * (xlim[1] - xlim[0]), ylim[1] - 0.03 * (ylim[1] - ylim[0]),
+            "← Logistic better", fontsize=8, color="gray", va="top")
+    ax.text(xlim[1] - 0.02 * (xlim[1] - xlim[0]), ylim[1] - 0.03 * (ylim[1] - ylim[0]),
+            "Weibull better →", fontsize=8, color="gray", va="top", ha="right")
+
     plt.tight_layout()
-    plt.savefig(out_path)
+    plt.savefig(out_path, dpi=150)
     plt.close()
 
 
